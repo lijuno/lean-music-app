@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct YTMusicApp: App {
+struct LeanMusicApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var browser = BrowserModel()
     @StateObject private var connectivity = ConnectivityMonitor()

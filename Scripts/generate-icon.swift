@@ -13,7 +13,7 @@ let sourceURL = URL(fileURLWithPath: CommandLine.arguments[1])
 let outputURL = URL(fileURLWithPath: CommandLine.arguments[2])
 let iconsetURL = outputURL
     .deletingLastPathComponent()
-    .appendingPathComponent("YTMusicApp.iconset", isDirectory: true)
+    .appendingPathComponent("LeanMusicApp.iconset", isDirectory: true)
 
 guard let imageSource = CGImageSourceCreateWithURL(sourceURL as CFURL, nil),
       let sourceImage = CGImageSourceCreateImageAtIndex(imageSource, 0, nil) else {

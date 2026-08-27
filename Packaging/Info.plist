@@ -5,23 +5,23 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleDisplayName</key>
-    <string>YT Music App</string>
+    <string>Lean Music App</string>
     <key>CFBundleExecutable</key>
-    <string>YTMusicApp</string>
+    <string>LeanMusicApp</string>
     <key>CFBundleIconFile</key>
     <string>AppIcon</string>
     <key>CFBundleIdentifier</key>
-    <string>io.github.lijuno.yt-music-app</string>
+    <string>io.github.lijuno.lean-music-app</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>YT Music App</string>
+    <string>Lean Music App</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.2</string>
+    <string>1.1.2</string>
     <key>CFBundleVersion</key>
-    <string>3</string>
+    <string>6</string>
     <key>LSApplicationCategoryType</key>
     <string>public.app-category.music</string>
     <key>LSMinimumSystemVersion</key>
@@ -31,7 +31,7 @@
     <key>NSHighResolutionCapable</key>
     <true/>
     <key>NSHumanReadableCopyright</key>
-    <string>Independent, unofficial client. YouTube is a trademark of Google LLC.</string>
+    <string>Copyright © 2026 Lijun Li. Released under the MIT License.</string>
     <key>NSPrincipalClass</key>
     <string>NSApplication</string>
 </dict>

@@ -1,6 +1,6 @@
 import Darwin
 import Foundation
-import YTMusicCore
+import LeanMusicCore
 
 private var failures: [String] = []
 
@@ -11,9 +11,9 @@ private func expect(_ condition: @autoclosure () -> Bool, _ message: String) {
     }
 }
 
-expect(AppConstants.productName == "YT Music App", "Unexpected product name")
+expect(AppConstants.productName == "Lean Music App", "Unexpected product name")
 expect(
-    AppConstants.bundleIdentifier == "io.github.lijuno.yt-music-app",
+    AppConstants.bundleIdentifier == "io.github.lijuno.lean-music-app",
     "Unexpected bundle identifier"
 )
 expect(
@@ -44,7 +44,7 @@ let trustedURLs = [
     "https://accounts.google.com/signin",
     "https://www.youtube.com/watch?v=123",
     "https://support.google.com/youtubemusic/",
-    "blob:https://music.youtube.com/1234"
+    "about:blank"
 ]
 for rawURL in trustedURLs {
     guard let url = URL(string: rawURL) else {
@@ -57,6 +57,14 @@ for rawURL in trustedURLs {
     )
 }
 
+expect(
+    NavigationPolicy.destination(
+        for: URL(string: "blob:https://music.youtube.com/1234")!,
+        currentPageURL: AppConstants.homeURL
+    ) == .inApp,
+    "Trusted blob URLs should stay inside the app when created by a trusted page"
+)
+
 let externalURLs = [
     "https://example.com/",
     "https://youtube.com.example.org/",
@@ -68,13 +76,39 @@ for rawURL in externalURLs {
         continue
     }
     expect(
-        NavigationPolicy.destination(for: url) == .external,
+        NavigationPolicy.destination(for: url, isUserInitiated: true) == .external,
         "Expected external navigation for \(rawURL)"
     )
 }
 
+let blockedURLs = [
+    "data:text/html,blocked",
+    "javascript:alert(1)",
+    "custom-scheme://open",
+    "http://music.youtube.com/",
+    "blob:https://example.com/1234"
+]
+for rawURL in blockedURLs {
+    guard let url = URL(string: rawURL) else {
+        failures.append("Could not construct blocked test URL: \(rawURL)")
+        continue
+    }
+    expect(
+        NavigationPolicy.destination(
+            for: url,
+            currentPageURL: AppConstants.homeURL
+        ) == .blocked,
+        "Expected blocked navigation for \(rawURL)"
+    )
+}
+
+expect(
+    NavigationPolicy.destination(for: URL(string: "https://example.com/")!) == .blocked,
+    "External pages must not open without an explicit user action"
+)
+
 if failures.isEmpty {
-    print("All YT Music App checks passed.")
+    print("All lean-music-app checks passed.")
     exit(EXIT_SUCCESS)
 }
 

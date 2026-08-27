@@ -1,7 +1,7 @@
 import AppKit
 import Combine
 import WebKit
-import YTMusicCore
+import LeanMusicCore
 
 @MainActor
 final class BrowserModel: NSObject, ObservableObject {
@@ -9,6 +9,8 @@ final class BrowserModel: NSObject, ObservableObject {
     @Published private(set) var canGoForward = false
     @Published private(set) var isLoading = false
     @Published private(set) var navigationError: Error?
+    @Published private(set) var currentHost = "music.youtube.com"
+    @Published private(set) var isClearingWebsiteData = false
 
     let webView: WKWebView
 
@@ -59,19 +61,49 @@ final class BrowserModel: NSObject, ObservableObject {
         navigationError = nil
     }
 
+    func clearWebsiteData() async {
+        guard !isClearingWebsiteData else { return }
+        isClearingWebsiteData = true
+        webView.stopLoading()
+
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            webView.configuration.websiteDataStore.removeData(
+                ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
+                modifiedSince: .distantPast
+            ) {
+                continuation.resume()
+            }
+        }
+
+        navigationError = nil
+        isClearingWebsiteData = false
+        loadHome()
+    }
+
     private func updateState() {
         canGoBack = webView.canGoBack
         canGoForward = webView.canGoForward
         isLoading = webView.isLoading
+        currentHost = webView.url?.host ?? "music.youtube.com"
     }
 
-    private func open(_ url: URL) {
-        switch NavigationPolicy.destination(for: url) {
+    private func handleNavigation(
+        to url: URL,
+        isUserInitiated: Bool,
+        currentPageURL: URL?
+    ) {
+        switch NavigationPolicy.destination(
+            for: url,
+            isUserInitiated: isUserInitiated,
+            currentPageURL: currentPageURL
+        ) {
         case .inApp:
             navigationError = nil
             webView.load(URLRequest(url: url))
         case .external:
             NSWorkspace.shared.open(url)
+        case .blocked:
+            break
         }
     }
 }
@@ -87,11 +119,22 @@ extension BrowserModel: WKNavigationDelegate {
             return
         }
 
-        if NavigationPolicy.destination(for: url) == .external {
+        let isUserInitiated = navigationAction.navigationType == .linkActivated
+            || navigationAction.navigationType == .formSubmitted
+        let destination = NavigationPolicy.destination(
+            for: url,
+            isUserInitiated: isUserInitiated,
+            currentPageURL: navigationAction.sourceFrame.request.url ?? webView.url
+        )
+
+        switch destination {
+        case .inApp:
+            decisionHandler(.allow)
+        case .external:
             NSWorkspace.shared.open(url)
             decisionHandler(.cancel)
-        } else {
-            decisionHandler(.allow)
+        case .blocked:
+            decisionHandler(.cancel)
         }
     }
 
@@ -145,7 +188,13 @@ extension BrowserModel: WKUIDelegate {
             return nil
         }
 
-        open(url)
+        let isUserInitiated = navigationAction.navigationType == .linkActivated
+            || navigationAction.navigationType == .formSubmitted
+        handleNavigation(
+            to: url,
+            isUserInitiated: isUserInitiated,
+            currentPageURL: navigationAction.sourceFrame.request.url ?? webView.url
+        )
         return nil
     }
 }

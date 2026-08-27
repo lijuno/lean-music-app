@@ -1,5 +1,5 @@
 import SwiftUI
-import YTMusicCore
+import LeanMusicCore
 
 struct ContentView: View {
     @ObservedObject var browser: BrowserModel
@@ -53,6 +53,14 @@ struct ContentView: View {
                     ProgressView()
                         .controlSize(.small)
                         .help("Loading")
+                } else {
+                    HStack(spacing: 5) {
+                        Image(systemName: "lock.fill")
+                        Text(browser.currentHost)
+                            .font(.caption.monospaced())
+                    }
+                        .foregroundStyle(.secondary)
+                        .help("Current secure website")
                 }
             }
         }

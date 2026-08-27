@@ -1,5 +1,5 @@
 import AppKit
-import YTMusicCore
+import LeanMusicCore
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
@@ -57,6 +57,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         alert.informativeText = AppConstants.helpMessage
         alert.addButton(withTitle: "OK")
         alert.runModal()
+    }
+
+    func confirmWebsiteDataReset() -> Bool {
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        alert.messageText = "Clear website data and sign out?"
+        alert.informativeText = "This removes Google and YouTube cookies, local storage, caches, and website-managed downloads from this Mac. The app will return to the YouTube Music home page."
+        alert.addButton(withTitle: "Clear Data")
+        alert.addButton(withTitle: "Cancel")
+        return alert.runModal() == .alertFirstButtonReturn
     }
 
     private func configureMainWindow(_ window: NSWindow) {

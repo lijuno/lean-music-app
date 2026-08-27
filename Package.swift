@@ -3,27 +3,27 @@
 import PackageDescription
 
 let package = Package(
-    name: "YTMusicApp",
+    name: "LeanMusicApp",
     platforms: [
         .macOS(.v14)
     ],
     products: [
-        .executable(name: "YTMusicApp", targets: ["YTMusicApp"])
+        .executable(name: "LeanMusicApp", targets: ["LeanMusicApp"])
     ],
     targets: [
         .target(
-            name: "YTMusicCore",
-            path: "Sources/YTMusicCore"
+            name: "LeanMusicCore",
+            path: "Sources/LeanMusicCore"
         ),
         .executableTarget(
-            name: "YTMusicApp",
-            dependencies: ["YTMusicCore"],
-            path: "Sources/YTMusicApp"
+            name: "LeanMusicApp",
+            dependencies: ["LeanMusicCore"],
+            path: "Sources/LeanMusicApp"
         ),
         .executableTarget(
-            name: "YTMusicAppChecks",
-            dependencies: ["YTMusicCore"],
-            path: "Tests/YTMusicAppChecks"
+            name: "LeanMusicAppChecks",
+            dependencies: ["LeanMusicCore"],
+            path: "Tests/LeanMusicAppChecks"
         )
     ]
 )

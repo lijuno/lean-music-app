@@ -9,10 +9,20 @@ struct AppCommands: Commands {
             Button("About Offline Playback…") {
                 appDelegate.showOfflineHelp()
             }
+
+            Divider()
+
+            Button("Clear Website Data and Sign Out…") {
+                guard appDelegate.confirmWebsiteDataReset() else { return }
+                Task {
+                    await browser.clearWebsiteData()
+                }
+            }
+            .disabled(browser.isClearingWebsiteData)
         }
 
         CommandGroup(after: .newItem) {
-            Button("Show YT Music App") {
+            Button("Show Lean Music App") {
                 appDelegate.showMainWindow()
             }
             .keyboardShortcut("0", modifiers: [.command])
