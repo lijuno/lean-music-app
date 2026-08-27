@@ -2,6 +2,14 @@
 
 All notable changes are documented here. Versions follow semantic versioning.
 
+## [Unreleased]
+
+### Added
+
+- Agent operating instructions and architecture, testing, decision, and roadmap documentation
+- Standard SwiftPM test coverage and reusable app-bundle verification
+- Stronger contribution intake and repository maintenance guardrails
+
 ## [1.1.2] - 2026-08-27
 
 ### Changed

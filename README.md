@@ -37,12 +37,12 @@ Version 1.1.0 enables App Sandbox. Version 1.1.1 also changes the application id
 Requirements: macOS 14 or later and Apple Swift 6.1 or later.
 
 ```sh
-swift run LeanMusicAppChecks
+./Scripts/test.sh
 swift build
 swift run LeanMusicApp
 ```
 
-The dependency-free check executable tests the shared routing and identity logic without requiring XCTest.
+Swift Testing covers the shared routing, identity, and public application invariants without launching a real Google session.
 
 To assemble a universal, locally signed app:
 
@@ -52,6 +52,8 @@ open ".build/dist/Lean Music App.app"
 ```
 
 Public release instructions are in [docs/RELEASING.md](docs/RELEASING.md). Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting changes and [SECURITY.md](SECURITY.md) before reporting a vulnerability.
+
+Automated maintainers must begin with [AGENTS.md](AGENTS.md). Architectural context and the manual compatibility matrix are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/TESTING.md](docs/TESTING.md).
 
 ## License
 

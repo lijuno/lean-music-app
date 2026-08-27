@@ -13,14 +13,16 @@ Thank you for helping improve lean-music-app.
 ## Verify locally
 
 ```sh
-swift run LeanMusicAppChecks
+./Scripts/test.sh
 swift build
 ./Scripts/build-app.sh
-codesign --verify --deep --strict --verbose=2 ".build/dist/Lean Music App.app"
+./Scripts/verify-app.sh
 ```
 
-For WebKit changes, manually test a fresh login, relaunch persistence, account logout, external links, window close/reopen, playback, and **Clear Website Data and Sign Out**.
+For WebKit changes, use the applicable manual matrix in `docs/TESTING.md`. Never claim a manual check passed unless it was actually performed.
 
 ## Pull requests
 
-Explain the user-visible change, risks, and verification performed. Keep unrelated changes separate. By contributing, you agree that your contribution is licensed under the MIT License.
+Explain the user-visible change, risks, automated verification, manual verification, and checks still required. Keep unrelated changes separate. By contributing, you agree that your contribution is licensed under the MIT License.
+
+Automated contributors must follow `AGENTS.md`. Architecture or product-boundary changes require a decision-log entry.
