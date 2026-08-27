@@ -1,1 +1,8 @@
 * @lijuno
+
+# High-risk policy, identity, sandbox, and release surfaces require owner review.
+/AGENTS.md @lijuno
+/docs/DECISIONS.md @lijuno
+/Packaging/ @lijuno
+/Scripts/release.sh @lijuno
+/.github/workflows/ @lijuno

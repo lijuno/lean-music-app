@@ -20,10 +20,10 @@ let package = Package(
             dependencies: ["LeanMusicCore"],
             path: "Sources/LeanMusicApp"
         ),
-        .executableTarget(
-            name: "LeanMusicAppChecks",
+        .testTarget(
+            name: "LeanMusicCoreTests",
             dependencies: ["LeanMusicCore"],
-            path: "Tests/LeanMusicAppChecks"
+            path: "Tests/LeanMusicCoreTests"
         )
     ]
 )

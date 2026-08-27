@@ -11,6 +11,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: release-${{ inputs.tag }}
+  cancel-in-progress: false
+
 jobs:
   notarized-release:
     runs-on: macos-15
@@ -25,9 +29,11 @@ jobs:
 
       - name: Validate tag and run checks
         run: |
+          [[ "${{ inputs.tag }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
           APP_VERSION="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' Packaging/Info.plist)"
           test "v$APP_VERSION" = "${{ inputs.tag }}"
-          swift run LeanMusicAppChecks
+          test "$(git tag --points-at HEAD | grep -Fx "${{ inputs.tag }}")" = "${{ inputs.tag }}"
+          ./Scripts/test.sh
 
       - name: Import signing and notarization credentials
         env:

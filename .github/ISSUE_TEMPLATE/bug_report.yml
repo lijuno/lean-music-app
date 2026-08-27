@@ -20,6 +20,24 @@ body:
       placeholder: macOS 15.6, Apple silicon
     validations:
       required: true
+  - type: input
+    id: safari
+    attributes:
+      label: Safari version
+      description: WKWebView behavior is tied to the installed system WebKit version.
+      placeholder: Safari 26.0
+    validations:
+      required: true
+  - type: dropdown
+    id: session
+    attributes:
+      label: Session state
+      options:
+        - Signed out
+        - Signed in
+        - Unknown or not relevant
+    validations:
+      required: true
   - type: textarea
     id: steps
     attributes:
@@ -38,3 +56,10 @@ body:
     attributes:
       label: Additional context
       description: Add non-sensitive logs or screenshots if useful.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Sensitive-data check
+      options:
+        - label: I removed passwords, cookies, account identifiers, and other private data.
+          required: true

@@ -1,0 +1,36 @@
+name: Feature request
+description: Propose a focused improvement within the project's documented boundaries
+title: "[Feature]: "
+labels: [enhancement, triage]
+body:
+  - type: markdown
+    attributes:
+      value: Read AGENTS.md, ROADMAP.md, and docs/DECISIONS.md first. Requests for scraping, custom downloads, ad blocking, local audio, telemetry, or undocumented APIs are out of scope.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Describe the user problem without prescribing an implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome and acceptance criteria
+      description: State observable behavior that would make this complete.
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Security, privacy, and compatibility considerations
+      description: Note possible effects on authentication, storage, navigation, playback, sandboxing, or packaging.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Suggested verification
+      description: Identify automated checks and any manual WebKit matrix scenarios.
+    validations:
+      required: true

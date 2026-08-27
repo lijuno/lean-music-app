@@ -21,7 +21,7 @@ jobs:
         run: swift --version
 
       - name: Run checks
-        run: swift run LeanMusicAppChecks
+        run: ./Scripts/test.sh
 
       - name: Build debug executable
         run: swift build
@@ -29,8 +29,5 @@ jobs:
       - name: Assemble universal app
         run: ./Scripts/build-app.sh
 
-      - name: Verify bundle and sandbox
-        run: |
-          codesign --verify --deep --strict --verbose=2 ".build/dist/Lean Music App.app"
-          codesign -d --entitlements :- ".build/dist/Lean Music App.app" 2>&1 \
-            | grep -q 'com.apple.security.app-sandbox'
+      - name: Verify bundle, architectures, identity, and sandbox
+        run: ./Scripts/verify-app.sh

@@ -1,0 +1,1 @@
+Read and follow the repository-root `AGENTS.md` before making changes. Treat it as the canonical project operating contract. Use `docs/ARCHITECTURE.md`, `docs/TESTING.md`, and `docs/DECISIONS.md` for supporting context; do not weaken security, privacy, product, or release boundaries to satisfy a task.

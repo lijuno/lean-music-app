@@ -6,9 +6,10 @@ Releases are built from version tags matching `v<CFBundleShortVersionString>`, s
 
 1. Update `CFBundleShortVersionString` and increment `CFBundleVersion` in `Packaging/Info.plist`.
 2. Update `CHANGELOG.md`.
-3. Run `swift run LeanMusicAppChecks`, `swift build`, and `./Scripts/build-app.sh`.
+3. Run `./Scripts/test.sh`, `swift build`, `./Scripts/build-app.sh`, and `./Scripts/verify-app.sh`.
 4. Test sign-in, playback, hide-on-close, relaunch persistence, external links, origin display, and website-data deletion on a clean macOS account.
-5. Confirm the working tree is clean and the release commit is on the default branch.
+5. Confirm the working tree is clean, CI is passing, and the release commit is on the protected default branch.
+6. Obtain explicit owner authorization before creating or pushing the tag.
 
 ## Local notarized release
 
@@ -25,7 +26,7 @@ The script creates a notarized ZIP and matching `.sha256` file in `.build/dist`.
 
 ## GitHub tag release
 
-The release workflow requires a protected `release` environment and these repository secrets:
+The release workflow requires a human-approved `release` environment and these repository secrets:
 
 - `DEVELOPER_ID_APPLICATION`
 - `DEVELOPER_ID_P12_BASE64`
@@ -43,6 +44,6 @@ git tag -a v1.1.2 -m "lean-music-app 1.1.2"
 git push origin v1.1.2
 ```
 
-Then run the **Release** workflow from GitHub Actions and enter the existing tag. The workflow is deliberately manual so merely pushing a tag cannot start a signing job before protected credentials and an environment approval are available.
+Then, with explicit owner authorization, run the **Release** workflow from GitHub Actions and enter the existing tag. The workflow is deliberately manual so merely pushing a tag cannot start a signing job before protected credentials and an environment approval are available.
 
 The workflow checks that the requested tag matches `Info.plist`, imports credentials into an ephemeral Keychain, runs tests, signs and notarizes the universal app, publishes the ZIP and checksum, and removes temporary credentials.
