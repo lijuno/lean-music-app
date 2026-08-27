@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-check:
+    runs-on: macos-15
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: swift --version
+
+      - name: Run checks
+        run: swift run LeanMusicAppChecks
+
+      - name: Build debug executable
+        run: swift build
+
+      - name: Assemble universal app
+        run: ./Scripts/build-app.sh
+
+      - name: Verify bundle and sandbox
+        run: |
+          codesign --verify --deep --strict --verbose=2 ".build/dist/Lean Music App.app"
+          codesign -d --entitlements :- ".build/dist/Lean Music App.app" 2>&1 \
+            | grep -q 'com.apple.security.app-sandbox'

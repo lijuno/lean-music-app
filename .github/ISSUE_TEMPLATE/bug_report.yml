@@ -1,0 +1,40 @@
+name: Bug report
+description: Report a reproducible problem with lean-music-app
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include passwords, cookies, account identifiers, or other sensitive data. Report security issues privately under the Security tab.
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      placeholder: 1.1.0
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version and Mac architecture
+      placeholder: macOS 15.6, Apple silicon
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Explain what you did and what happened.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add non-sensitive logs or screenshots if useful.
